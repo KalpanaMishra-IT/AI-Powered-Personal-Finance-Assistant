@@ -26,3 +26,18 @@
                 <label for="query">Ask a question:</label>
                 <input type="text" class="form-control" id="query" name="query" required>
             </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if response %}
+        <div class="mt-4 alert alert-success">
+            <strong>Assistant's Response:</strong>
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
