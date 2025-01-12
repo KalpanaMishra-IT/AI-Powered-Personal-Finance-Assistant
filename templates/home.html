@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Finance Assistant</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .nav-item a:hover {
+            color: #007bff;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container text-center mt-5">
+        <h1 class="mb-4 text-primary">💰 Finance Assistant</h1>
+        <p class="lead">Manage your finances smarter and achieve your financial goals!</p>
+
+        <div class="row mt-5">
+            <div class="col-md-4 mb-4">
+                <a href="http://127.0.0.1:5000/dashboard" class="btn btn-outline-primary btn-block py-3 shadow-sm">
+                    <i class="fas fa-chart-line fa-2x icon"></i><br>
+                    <strong>Go to Dashboard</strong>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <a href="http://127.0.0.1:5000/add_transaction" class="btn btn-outline-success btn-block py-3 shadow-sm">
+                    <i class="fas fa-plus-circle fa-2x icon"></i><br>
+                    <strong>Add a Transaction</strong>
+                </a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <a href="http://127.0.0.1:5000/retrain_model" class="btn btn-outline-warning btn-block py-3 shadow-sm">
+                    <i class="fas fa-sync-alt fa-2x icon"></i><br>
+                    <strong>Retrain Model</strong>
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="http://127.0.0.1:5000/login" class="btn btn-danger btn-custom">
+                <i class="fas fa-sign-out-alt icon"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

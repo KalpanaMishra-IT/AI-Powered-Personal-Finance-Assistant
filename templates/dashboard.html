@@ -1,43 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <title>Financial Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2, h4 {
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .summary-box {
+            background-color: #dff9fb;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .summary-positive {
+            color: green;
+            font-weight: bold;
+        }
+
+        .summary-negative {
+            color: red;
+            font-weight: bold;
+        }
+
+        .alert-warning {
+            background-color: #ffeaa7;
+            color: #d35400;
+        }
+
+        .list-group-item {
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #0984e3;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
-        <a class="navbar-brand" href="#">Finance Assistant</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('index') }}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <h2 class="text-center">Dashboard</h2>
-        <form method="post" class="mt-4">
-            <div class="form-group">
-                <label for="query">Ask a question:</label>
-                <input type="text" class="form-control" id="query" name="query" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
 
-        {% if response %}
-        <div class="mt-4 alert alert-success">
-            <strong>Assistant's Response:</strong>
-            <p>{{ response }}</p>
-        </div>
-        {% endif %}
+<div class="container">
+    <!-- Navigation -->
+    <div class="d-flex justify-content-end">
+        <a href="/dashboard" class="btn btn-outline-primary btn-sm mr-2">Dashboard</a>
+        <a href="/add_transaction" class="btn btn-outline-success btn-sm mr-2">Add Transaction</a>
+        <a href="/login" class="btn btn-danger btn-sm">Logout</a>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <h2>Your Financial Dashboard</h2>
+
+    <!-- Budget Limit -->
+    {% if budget_limit %}
+        <div class="summary-box">
+            <h4>🎯 Budget Limit</h4>
+            <p class="h5">₹{{ budget_limit }}</p>
+        </div>
+    {% endif %}
+
+    <!-- Total Predicted Expenses -->
+    {% if total_predicted_expenses %}
+        <div class="summary-box">
+            <h4>📊 Total Predicted Expenses</h4>
+            <p class="h5 {% if total_predicted_expenses <= budget_limit %}summary-positive{% else %}summary-negative{% endif %}">
+                ₹{{ total_predicted_expenses }}
+            </p>
+        </div>
+    {% endif %}
+
+    <!-- Budget Status -->
+    {% if budget_limit and total_predicted_expenses %}
+        <div class="summary-box">
+            <h4>💼 Budget Status</h4>
+            {% set remaining_budget = budget_limit - total_predicted_expenses %}
+            {% if remaining_budget >= 0 %}
+                <p class="h5 summary-positive">Remaining Budget: ₹{{ remaining_budget }}</p>
+            {% else %}
+                <p class="h5 summary-negative">Over Budget by ₹{{ remaining_budget | abs }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- Predicted Monthly Expenses -->
+    {% if combined_data %}
+        <h4>📉 Predicted Monthly Expenses</h4>
+        <ul class="list-group">
+            {% for expense, category in combined_data %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><strong>{{ category }}</strong></span>
+                    <span>₹{{ expense }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Budget Warnings -->
+    {% if budget_warning %}
+        <div class="alert alert-warning text-center mt-4">
+            <strong>⚠️ Warning!</strong> {{ budget_warning }}
+        </div>
+    {% endif %}
+
+    <!-- Investment Suggestions -->
+    {% if investment_suggestions %}
+        <h4>💡 Investment Suggestions</h4>
+        <ul class="list-group">
+            {% for suggestion in investment_suggestions %}
+                <li class="list-group-item">{{ suggestion }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Financial Query Form -->
+<!--    <form method="POST" class="mt-4">-->
+<!--        <div class="form-group">-->
+<!--            <textarea name="query" class="form-control" placeholder="Ask a financial question..." required></textarea>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary btn-block">Submit Query</button>-->
+<!--    </form>-->
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
